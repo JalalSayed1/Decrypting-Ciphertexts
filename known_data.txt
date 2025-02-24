@@ -1,8 +1,0 @@
-Task 1 ciphertext:
-ha=,fC\h$>s6e)uZeU2bUtHhA&VFe'p`-1:%VBunY2\MOvAF*o9Ji2x=>WNZFZNChDRQ;EJ<ua#u:m<FgFqxh+e oD2D,1-5!O-Taxfg~"w-7g!7]Yb\a6',Zu"aqL[koy8$BuZYV|wUTa:_44zySX~qzuCG05m_"s-:F*v*t9zgr<Ya)ETV*eY*K:V(:[CZ.vdZ"oD/{`7m}0 T`L@30iJ1MNJj#4%z3+xuKj;I;&ga%(5(s-7:GqA2:DVMdx/xSZ+.][`$#2W`VI
-
-Task 2 ciphertext:
-QsJ>IpvL{w$_j<Tm<Ubn-]UW=ccHxjm]Q\Ov~{`P e-M>2H&}{0f[[!wiFkC9Bko0^8>sSJnko]o[w]ku"Isy2Szyxq^o|Mm=PTU8}15-[9!uP'Nx<P[8Ll"`M;7K#1qR`QS~W/+8Pt}=SG?])=}VFNe,+y<jlJRFSKIy;]nNX];C?/<UO^l;wZ?"rqKrE;k:P5:@2(tBeXJ:O+DVW_quEb#&<~^@B(28t]yj/H+K^7qjF?FpC|;EA_ r6<6I]NRe8GTX}%;#];C~V"nRF"zq(Mh>]:L':UP.`Fr|=cf3mp{PgSGCKYqpVwZ&>7 fg&`g}Z=2M6W;o=sm?CT3};.u}>Al<f*TK@&jIJH)'3BtoO$9C:d\s*2z<OIBkZTkkÂ£Uora8C(0"!rd:THDpEKY&Eq{vn#KIc!
-
-First two letter of plaintext:
-"W" and "e"
