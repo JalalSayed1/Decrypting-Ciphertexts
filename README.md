@@ -18,6 +18,15 @@ Given a chunk of ciphertext with the first two characters of the plaintext, perf
 ## Ciphertext Only Attack (COA)
 Given another chunk of ciphertext but with no information about the plaintext, perform a dictionary attack but this time decide whether a key produces the correct plaintext given that the plaintext is an English message.
 
+## How To Run
+```bash
+cd <project_dir>
+javac rotor96Crypto/*.java
+
+java rotor96Crypto.KPA # to run the Known Plaintext Attack
+java rotor96Crypto.COA # to run the Ciphertext Only Attack
+```
+
 ## Rotor96 Encryption & Decryption Equations  
 
 ### 1. **Normalisation**  

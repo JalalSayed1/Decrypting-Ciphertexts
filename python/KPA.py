@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     ciphertext = load_text("../known_data/ciphertext1.txt")
     known_plaintext = load_text("../known_data/known_plaintext.txt")
-    password_filename = "../passwords"  # File containing passwords
+    password_filename = "../known_data/passwords"  # File containing passwords
 
     print("Deciphering...")
     possible_decipher = KPA_dictionary_attack(ciphertext, known_plaintext, password_filename)

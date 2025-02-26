@@ -1,5 +1,7 @@
 // Known Plaintext Attach
+package rotor96Crypto;
 
+// import Rotor96Crypto;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -42,18 +44,22 @@ public class KPA {
         try {
             List<String> passwords = loadPasswords(passwordFile);
             for (String password : passwords) {
-                // Assuming Rotor96Crypto.set_key and Rotor96Crypto.encdec are methods in a class
-                String decryptedText = Rotor96Crypto.encdec(Rotor96Crypto.DEC, password, ciphertext);
-                if (decryptedText.startsWith(knownPlaintext)) {
-                    System.out.println("Key found: " + password);
-                    System.out.println("Decrypted text: " + decryptedText);
-                    possibleDecipher.put(password, decryptedText);
+                try {
+                    // Assuming Rotor96Crypto.set_key and Rotor96Crypto.encdec are methods in a class
+                    String decryptedText = Rotor96Crypto.encdec(Rotor96Crypto.DEC, password, ciphertext);
+                    if (decryptedText.startsWith(knownPlaintext)) {
+                        System.out.println("Key found: " + password);
+                        System.out.println("Decrypted text: " + decryptedText);
+                        possibleDecipher.put(password, decryptedText);
+                    }
+                } catch (Exception e) {
+                    System.err.format("Error with key %s: %s%n", password, e.getMessage());
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {
-            System.err.format("Error reading passwords from file: %s", e);
-        } catch (Exception e) {
-            System.err.format("Error with key %s: %s", password, e);
+            System.err.format("Error reading passwords from file: %s%n", e.getMessage());
+            e.printStackTrace();
         }
 
         if (possibleDecipher.isEmpty()) {
@@ -67,13 +73,14 @@ public class KPA {
     public static void main(String[] args) {
         // Example usage
         try {
-            String ciphertext = loadText("ciphertext.txt");
-            String knownPlaintext = "known"; // Replace with actual known plaintext
-            String passwordFile = "passwords.txt";
+            String ciphertext = loadText("known_data/ciphertext1.txt");
+            String knownPlaintext = loadText("known_data/known_plaintext.txt");
+            String passwordFile = "known_data/passwords";
+
+            System.out.println("Deciphering..");
             Map<String, String> result = kpaDictionaryAttack(ciphertext, knownPlaintext, passwordFile);
-            if (result != null) {
-                System.out.println("Possible decryptions: " + result);
-            }
+            System.out.println("Done.");
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
