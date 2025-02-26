@@ -39,7 +39,7 @@ public class KPA {
     }
 
     // KPA dictionary attack
-    public static Map<String, String> kpaDictionaryAttack(String ciphertext, String knownPlaintext, String passwordFile) {
+    public static Map<String, String> knownPlaintextAttack(String ciphertext, String knownPlaintext, String passwordFile) {
         Map<String, String> possibleDecipher = new HashMap<>();
         try {
             List<String> passwords = loadPasswords(passwordFile);
@@ -78,7 +78,7 @@ public class KPA {
             String passwordFile = "known_data/passwords";
 
             System.out.println("Deciphering..");
-            Map<String, String> result = kpaDictionaryAttack(ciphertext, knownPlaintext, passwordFile);
+            Map<String, String> result = knownPlaintextAttack(ciphertext, knownPlaintext, passwordFile);
             System.out.println("Done.");
             
         } catch (IOException e) {
