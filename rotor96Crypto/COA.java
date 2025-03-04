@@ -39,11 +39,11 @@ public class COA {
                 String decryptedText = Rotor96Crypto.encdec(Rotor96Crypto.DEC, password, ciphertext);
                 String[] decryptedWords = decryptedText.toLowerCase().split("\\s+");
                 
-                for (String commonWord : commonWords) {
-                    if (Arrays.asList(decryptedWords).contains(commonWord)) {
+                for (String decryptedWord : decryptedWords) {
+                    if (commonWords.contains(decryptedWord)) {
                         possibleDecipher.put(password, decryptedText);
                         System.out.println("Key found: " + password);
-                        System.out.println("Found '" + commonWord + "' in Decrypted text: \n" + decryptedText + "\n");
+                        System.out.println("Found '" + decryptedWord + "' in Decrypted text: \n" + decryptedText + "\n");
                         break;
                     }
                 }
