@@ -1,35 +1,32 @@
-// Ciphertext Only Attach
+package rotor96Crypto;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class COA {
+    
     public static List<String> loadPasswords(String filename) throws IOException {
-        List<String> passwords = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (!line.trim().isEmpty()) {
-                passwords.add(line.strip());
-            }
-        }
-        reader.close();
-        return passwords;
+        return Files.readAllLines(Paths.get(filename));
     }
 
     public static String loadText(String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        StringBuilder text = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            text.append(line).append(" ");
-        }
-        reader.close();
-        return text.toString().strip();
+        return new String(Files.readAllBytes(Paths.get(filename))).trim();
     }
 
-    public static Map<String, String> cipherOnlyAttack(String ciphertext, String passwordFile) throws IOException {
-        List<String> passwords = loadPasswords(passwordFile);
+    public static Map<String, String> cipherOnlyAttack(String ciphertext, String passwordFile) {
+        List<String> passwords;
         Map<String, String> possibleDecipher = new HashMap<>();
 
-        List<String> commonWords = List.of(
+        try {
+            passwords = loadPasswords(passwordFile);
+        } catch (IOException e) {
+            System.err.println("Error reading password file: " + e.getMessage());
+            return possibleDecipher;
+        }
+
+        List<String> commonWords = Arrays.asList(
             "hello", "world", "this", "is", "the", "and", "of", "to", "in", "that",
             "have", "it", "for", "not", "on", "with", "he", "as", "you", "do", "at",
             "be", "by", "are", "or", "from", "but", "my", "if", "your", "has", "they",
@@ -37,55 +34,39 @@ public class COA {
             "she", "doe", "about", "out", "many", "then", "them", "these", "so", "some"
         );
 
-        Rotor96Crypto rotor96Crypto = new Rotor96Crypto();
         for (String password : passwords) {
             try {
-                String decryptedText = rotor96Crypto.encdec(Rotor96Crypto.DEC, password, ciphertext);
-
-                List<String> decryptedWords = splitToWords(decryptedText.toLowerCase());
-                for (String word : commonWords) {
-                    if (decryptedWords.contains(word)) {
+                String decryptedText = Rotor96Crypto.encdec(Rotor96Crypto.DEC, password, ciphertext);
+                String[] decryptedWords = decryptedText.toLowerCase().split("\\s+");
+                
+                for (String commonWord : commonWords) {
+                    if (Arrays.asList(decryptedWords).contains(commonWord)) {
                         possibleDecipher.put(password, decryptedText);
                         System.out.println("Key found: " + password);
-                        System.out.println("Found '" + word + "' in Decrypted text: \n" + decryptedText);
-                        System.out.println();
+                        System.out.println("Found '" + commonWord + "' in Decrypted text: \n" + decryptedText + "\n");
                         break;
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Error with key " + password + ": " + e);
+                System.err.println("Error with key " + password + ": " + e.getMessage());
             }
         }
-
         return possibleDecipher;
     }
 
-    private static List<String> splitToWords(String text) {
-        String[] words = text.split("[\\s.,;:!?']+");
-        List<String> wordList = new ArrayList<>();
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                wordList.add(word);
-            }
-        }
-        return wordList;
-    }
+    public static void main(String[] args) {
+        String ciphertext;
+        String passwordFilename = "../known_data/passwords";
 
-    public static void main(String[] args) throws IOException {
-        String ciphertext = loadText("../known_data/ciphertext2.txt");
-        String passwordFile = "../passwords";
+        try {
+            ciphertext = loadText("../known_data/ciphertext2.txt");
+        } catch (IOException e) {
+            System.err.println("Error reading ciphertext file: " + e.getMessage());
+            return;
+        }
 
         System.out.println("Deciphering...");
-        Map<String, String> possibleDecipher = cipherOnlyAttack(ciphertext, passwordFile);
+        Map<String, String> possibleDecipher = cipherOnlyAttack(ciphertext, passwordFilename);
         System.out.println("Done.");
-
-        if (!possibleDecipher.isEmpty()) {
-            java.io.PrintWriter writer = new java.io.PrintWriter("../decrypted_text/decrypted_text2.txt", "UTF-8");
-            writer.println("key \t decrypted_text");
-            for (Map.Entry<String, String> entry : possibleDecipher.entrySet()) {
-                writer.println(entry.getKey() + " \t " + entry.getValue());
-            }
-            writer.close();
-        }
     }
 }
