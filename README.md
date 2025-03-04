@@ -13,19 +13,35 @@ This exercise involves decrypting two different pieces of ciphertext using two d
     - **Ciphertext Only Attack (COA)**: Only the ciphertext is known.
 
 ## Known Plaintext Attack (KPA)
+
 Given a chunk of ciphertext with the first two characters of the plaintext, perform a dictionary attach to find the key. Use this key to decode the rest of the message.
 
 ## Ciphertext Only Attack (COA)
+
 Given another chunk of ciphertext but with no information about the plaintext, perform a dictionary attack but this time decide whether a key produces the correct plaintext given that the plaintext is an English message.
 
 ## How To Run
+
+To run the Java version:
+
 ```bash
 cd <project_dir>
+
 javac rotor96Crypto/*.java
 
 java rotor96Crypto.KPA # to run the Known Plaintext Attack
 java rotor96Crypto.COA # to run the Ciphertext Only Attack
 ```
+
+To run the Python version:
+
+```bash
+cd <project_dir/python>
+
+python KPA.py # to run the Known Plaintext Attack
+python COA.py # to run the Ciphertext Only Attack
+```
+
 
 ## Rotor96 Encryption & Decryption Equations  
 
