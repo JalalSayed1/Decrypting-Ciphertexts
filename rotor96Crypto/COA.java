@@ -56,10 +56,10 @@ public class COA {
 
     public static void main(String[] args) {
         String ciphertext;
-        String passwordFilename = "../known_data/passwords";
+        String passwordFilename = "known_data/passwords";
 
         try {
-            ciphertext = loadText("../known_data/ciphertext2.txt");
+            ciphertext = loadText("known_data/ciphertext2.txt");
         } catch (IOException e) {
             System.err.println("Error reading ciphertext file: " + e.getMessage());
             return;
