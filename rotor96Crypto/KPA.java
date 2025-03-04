@@ -39,13 +39,15 @@ public class KPA {
     }
 
     // KPA dictionary attack
-    public static Map<String, String> knownPlaintextAttack(String ciphertext, String knownPlaintext, String passwordFile) {
+    public static Map<String, String> knownPlaintextAttack(String ciphertext, String knownPlaintext,
+            String passwordFile) {
         Map<String, String> possibleDecipher = new HashMap<>();
         try {
             List<String> passwords = loadPasswords(passwordFile);
             for (String password : passwords) {
                 try {
-                    // Assuming Rotor96Crypto.set_key and Rotor96Crypto.encdec are methods in a class
+                    // Assuming Rotor96Crypto.set_key and Rotor96Crypto.encdec are methods in a
+                    // class
                     String decryptedText = Rotor96Crypto.encdec(Rotor96Crypto.DEC, password, ciphertext);
                     if (decryptedText.startsWith(knownPlaintext)) {
                         System.out.println("Key found: " + password);
@@ -80,7 +82,7 @@ public class KPA {
             System.out.println("Deciphering..");
             Map<String, String> result = knownPlaintextAttack(ciphertext, knownPlaintext, passwordFile);
             System.out.println("Done.");
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
