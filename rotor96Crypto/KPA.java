@@ -79,7 +79,7 @@ public class KPA {
             String knownPlaintext = loadText("known_data/known_plaintext.txt");
             String passwordFile = "known_data/passwords";
 
-            System.out.println("Deciphering..");
+            System.out.println("Deciphering with KPA..");
             Map<String, String> result = knownPlaintextAttack(ciphertext, knownPlaintext, passwordFile);
             System.out.println("Done.");
 

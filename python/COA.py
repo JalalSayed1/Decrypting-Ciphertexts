@@ -1,4 +1,5 @@
 from Rotor96Crypto import Rotor96Crypto
+import os
 
 
 def load_passwords(filename):
@@ -20,7 +21,7 @@ def cipher_only_attack(ciphertext, password_file):
         "have", "it", "for", "not", "on", "with", "he", "as", "you", "do", "at",
         "be", "by", "are", "or", "from", "but", "my", "if", "your", "has", "they",
         "we", "can", "her", "was", "said", "there", "use", "an", "each", "which",
-        "she", "doe", "about", "out", "many", "then", "them", "these", "so", "some",
+        "she", "doe", "about", "out", "many", "then", "them", "these", "so", "some"
     ]
 
     for password in passwords:
@@ -46,14 +47,17 @@ def cipher_only_attack(ciphertext, password_file):
 
 if __name__ == "__main__":
     ciphertext = load_text("../known_data/ciphertext2.txt")
-    password_filename = "../passwords"
+    password_filename = "../known_data/passwords"
 
     print("Deciphering...")
     possible_decipher = cipher_only_attack(ciphertext, password_filename)
     print("Done.")
 
     if len(possible_decipher) > 0:
+        if not os.path.exists("decrypted_text"):
+            os.makedirs("decrypted_text")
+
         with open(f"decrypted_text/decrypted_text2.txt", 'w') as f:
             f.write("key \t decrypted_text\n")
             for password, decrypted_text in possible_decipher.items():
-                f.write(f"{password} \t {decrypted_text}\n")
+                f.write(f"{password} \t {decrypted_text}\n\n")

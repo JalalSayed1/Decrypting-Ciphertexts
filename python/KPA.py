@@ -1,7 +1,7 @@
 from Rotor96Crypto import Rotor96Crypto
+import os
 
 
-# Load passwords from file
 def load_passwords(filename):
     with open(filename, 'r') as file:
         return [line.strip() for line in file if line.strip()]
@@ -24,14 +24,14 @@ def KPA_dictionary_attack(ciphertext, known_plaintext, password_file):
                 print(f"Key found: {password}")
                 print(f"Decrypted text: {decrypted_text}")
                 possible_decipher[password] = decrypted_text
-                
+
         except Exception as e:
             print(f"Error with key {password}: {e}")
-    
+
     if len(possible_decipher) == 0:
         print("Key not found in dictionary.")
         return None
-    
+
     return possible_decipher
 
 
@@ -42,11 +42,15 @@ if __name__ == "__main__":
     password_filename = "../known_data/passwords"  # File containing passwords
 
     print("Deciphering...")
-    possible_decipher = KPA_dictionary_attack(ciphertext, known_plaintext, password_filename)
+    possible_decipher = KPA_dictionary_attack(
+        ciphertext, known_plaintext, password_filename)
     print("Done.")
-    
+
     if len(possible_decipher) > 0:
+        if not os.path.exists("decrypted_text"):
+            os.makedirs("decrypted_text")
+
         with open(f"decrypted_text/decrypted_text1.txt", 'w') as f:
             f.write("key \t decrypted_text\n")
             for password, decrypted_text in possible_decipher.items():
-                f.write(f"{password} \t {decrypted_text}\n")
+                f.write(f"{password} \t {decrypted_text}\n\n")
