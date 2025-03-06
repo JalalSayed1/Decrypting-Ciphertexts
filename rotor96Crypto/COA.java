@@ -33,8 +33,7 @@ public class COA {
             try {
                 String decryptedText = Rotor96Crypto.encdec(Rotor96Crypto.DEC, password, ciphertext);
 
-                boolean isEnglish = isEnglishSentence(decryptedText);
-                if (isEnglish) {
+                if (isEnglishSentence(decryptedText)) {
                     possibleDecipher.put(password, decryptedText);
                 }
                 
@@ -52,10 +51,12 @@ public class COA {
             String truncatedCiphertext = ciphertext.substring(0, len);
             Map<String, String> results = cipherOnlyAttack(truncatedCiphertext, passwordFile);
 
-            if (results.containsKey(key)) {
-                System.out.println("Decrypted Text: " + results.get(key));
-                minLength = len;
-                break;
+            for (String decryptedText : results.values()) {
+                if (isEnglishSentence(decryptedText)) {
+                    System.out.println("Decrypted Text: " + decryptedText);
+                    minLength = len;
+                    break;
+                }
             }
         }
 
