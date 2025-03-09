@@ -26,8 +26,7 @@ public class COA {
             return possibleDecipher;
         }
 
-        List<String> commonWords = Arrays.asList(
-                );
+        List<String> commonWords = Arrays.asList();
 
         for (String password : passwords) {
             try {
@@ -36,7 +35,7 @@ public class COA {
                 if (isEnglishSentence(decryptedText)) {
                     possibleDecipher.put(password, decryptedText);
                 }
-                
+
             } catch (Exception e) {
                 System.err.println("Error with key " + password + ": " + e.getMessage());
             }
@@ -46,6 +45,7 @@ public class COA {
 
     public static int performExperiment(String key, String ciphertext, String passwordFile) {
         int minLength = ciphertext.length();
+        boolean found = false;
 
         for (int len = 1; len <= ciphertext.length(); len++) {
             String truncatedCiphertext = ciphertext.substring(0, len);
@@ -55,8 +55,12 @@ public class COA {
                 if (isEnglishSentence(decryptedText)) {
                     System.out.println("Decrypted Text: " + decryptedText);
                     minLength = len;
-                    break;
+                    found = true;
                 }
+            }
+
+            if (found) {
+                break;
             }
         }
 
@@ -64,10 +68,13 @@ public class COA {
 
     }
 
-
     public static boolean isEnglishSentence(String text) {
         String[] commonWords = {
-            "the", "be", "to", "of", "and", "a", "in", "that", "have", "I", "hello", "world", "this", "is", "the", "and", "of", "to", "in", "that", "have", "it", "for", "not", "on", "with", "he", "as", "you", "do", "at", "be", "by", "are", "or", "from", "but", "my", "if", "your", "has", "they", "we", "can", "her", "was", "said", "there", "use", "an", "each", "which", "she", "doe", "about", "out", "many", "then", "them", "these", "so", "some"
+                "the", "be", "to", "of", "and", "a", "in", "that", "have", "I", "hello", "world", "this", "is", "the",
+                "and", "of", "to", "in", "that", "have", "it", "for", "not", "on", "with", "he", "as", "you", "do",
+                "at", "be", "by", "are", "or", "from", "but", "my", "if", "your", "has", "they", "we", "can", "her",
+                "was", "said", "there", "use", "an", "each", "which", "she", "doe", "about", "out", "many", "then",
+                "them", "these", "so", "some"
         };
         int count = 0;
         String[] words = text.toLowerCase().split("\\s+");
@@ -76,7 +83,8 @@ public class COA {
                 count++;
             }
         }
-        return count > words.length * 0.1;
+
+        return count > 1;
     }
 
     public static void main(String[] args) {
